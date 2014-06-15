@@ -1,0 +1,58 @@
+<%
+chef_server_ip = ENV['CHEF_SERVER_IP'] ? ENV['CHEF_SERVER_IP'] : '172.18.1.6'
+mcollective_server_ip = ENV['MCOLLECTIVE_SERVER_IP'] ? ENV['MCOLLECTIVE_SERVER_IP'] : '172.18.1.7'
+%>
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos65
+    driver:
+      box: box-cutter/centos65
+      box_url: box-cutter/centos65
+      synced_folders:
+        - ["chef-server-keys", "/tmp/chef-server-keys", "create: true"]
+
+suites:
+  - name: mcollective-admin
+    driver:
+      network:
+        - ["private_network", {ip: "<%= mcollective_server_ip %>"}]
+    run_list:
+      - recipe[demo-mcollective::activemq]
+      - recipe[demo-mcollective::server]
+      - recipe[demo-mcollective::client]
+    attributes:
+      chef_server:
+        api_fqdn: "https://<%= chef_server_ip %>"
+      mcollective:
+        users: ['vagrant']
+        stomp:
+          hostname: <%= mcollective_server_ip %>
+
+  - name: chef-server
+    driver:
+      network:
+        - ["private_network", {ip: "<%= chef_server_ip %>"}]
+      customize:
+        memory: 1536
+        cpus: 2
+    run_list:
+      - recipe[demo-chef-server::chef_server]
+    attributes:
+      chef_server:
+        api_fqdn: "https://<%= chef_server_ip %>"
+
+  - name: node1
+    run_list:
+      - recipe[demo-chef-server::node]
+    attributes:
+      chef_server:
+        api_fqdn: "https://<%= chef_server_ip %>"
+      mcollective:
+        stomp:
+          hostname: <%= mcollective_server_ip %>

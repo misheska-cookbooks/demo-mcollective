@@ -1,0 +1,10 @@
+name             'demo-mcollective'
+maintainer       ''
+maintainer_email ''
+license          ''
+description      'Installs/Configures demo-mcollective'
+long_description 'Installs/Configures demo-mcollective'
+version          '0.1.0'
+
+depends 'mcollective', '~> 0.14.0'
+depends 'activemq', '~> 1.3.0'

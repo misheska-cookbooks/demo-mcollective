@@ -1,0 +1,10 @@
+default['demo-mcollective']['client']['username'] = 'client'
+default['demo-mcollective']['client']['password'] = 'UZGOVeW0b+WVuzYyeDAfvya9xGL5X3kKoqkKW9/ALXk='
+default['demo-mcollective']['server']['username'] = 'server'
+default['demo-mcollective']['server']['password'] = 'hKtReOXPXZGBCmAJlmxo72TA9y3cxXjqCIZJrJFfbYQ='
+
+default['mcollective']['connector'] = 'activemq'
+default['mcollective']['stomp']['port'] = '61613'
+default['mcollective']['stomp']['username'] = 'server'
+default['mcollective']['stomp']['password'] = 'hKtReOXPXZGBCmAJlmxo72TA9y3cxXjqCIZJrJFfbYQ='
+default['mcollective']['psk'] = '++k12te8CSgMlr7iNhPMKLTBXw7V5rxm+pWZx40HTRo='
